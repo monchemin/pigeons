@@ -14,11 +14,11 @@ public class CouleurPigeon {
 		tab = new ArrayList<Color>();
 		tab.add(Color.BLACK);
 		tab.add(Color.BLUE);
-		tab.add(Color.BISQUE);
+		tab.add(Color.BROWN);
 		tab.add(Color.AQUAMARINE);
 		tab.add(Color.BLUEVIOLET);
 		tab.add(Color.DARKBLUE);
-		tab.add(Color.BLANCHEDALMOND);
+		tab.add(Color.DARKCYAN);
 		tab.add(Color.CHOCOLATE);
 	}
 	public Color getColor()
