@@ -9,6 +9,7 @@ public class Pigeon extends Parent {
 	protected int positionY; //ordonnée
 	protected Color color; //couleur
 	
+	
 	public Pigeon(int posX, int posY, Color color) {
 		this.positionX = posX;
 		this.positionY = posY;
@@ -28,7 +29,19 @@ public class Pigeon extends Parent {
 		unPigeon.setFill(this.color);
 		//positionnement du pigeon
 		this.getChildren().add(unPigeon); // ajout du polygone à l'objet pigeon 
+		this.setPosition(); // position y du pigeon sur la scene
+		
+	}
+	public void moov(int newposX , int newposY)
+	{
+		this.positionX = newposX;
+		this.positionY = newposY;
+		this.setPosition();
+	}
+	
+	protected void setPosition()// déplacement
+	{
 		this.setTranslateX(this.positionX); //position x du pigeon sur la scene
-		this.setTranslateY(this.positionY); // position y du pigeon sur la scene
+		this.setTranslateY(this.positionY);
 	}
 }

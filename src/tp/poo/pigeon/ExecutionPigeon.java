@@ -1,5 +1,6 @@
 package tp.poo.pigeon;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import javafx.application.Application;
@@ -17,11 +18,11 @@ import javafx.stage.Stage;
  * 
  */
 
-public class ExcutionPigeon extends Application {
+public class ExecutionPigeon extends Application {
 
 Group root;	
-ArrayList<Pigeon> tabPigeon;
-ArrayList<Nourriture> tabNourriture;
+ArrayList<Pigeon> tabPigeon = new ArrayList<Pigeon>();
+ArrayList<Nourriture> tabNourriture = new ArrayList<Nourriture>();
 
 	@Override
  public void start(Stage primaryStage) {
@@ -55,6 +56,7 @@ ArrayList<Nourriture> tabNourriture;
 			int y = new Random().nextInt(Config.WHAUTEUR-100);// y random
 			Color c = new CouleurPigeon().getColor(); // color random
 			Pigeon monPigeon = new Pigeon(x, y, c); // instaciation de pigeon
+			//System.out.println(monPigeon);
 		    this.root.getChildren().add(monPigeon); // ajout à la scene
 		    try {
 		    	this.tabPigeon.add(monPigeon);
@@ -70,6 +72,21 @@ ArrayList<Nourriture> tabNourriture;
 		try{
 		tabNourriture.add(nourriture); //insertion dans la table
 		} catch (NullPointerException e){ e.printStackTrace();}
+		this.deplacementPigeon(x, y);
+	}
+	public void deplacementPigeon(double x, double y)
+	{// deplacement des pigeon par thread
+		if(this.tabPigeon != null)
+		{
+			Iterator lepigeon = this.tabPigeon.iterator(); //iteration sur arraylist tabPigeon
+			while(lepigeon.hasNext())
+			{
+				Pigeon prochain = (Pigeon) lepigeon.next(); // prochain pigeon
+				Thread tDeplacement = new Thread(new LancementDeplacement(prochain, x, y));//lancement du thread
+				tDeplacement.start(); //execution
+				
+			}
+		}
 	}
 	public static void main(String[] args) {
 		launch(args);
