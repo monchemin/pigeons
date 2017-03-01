@@ -25,6 +25,9 @@ public class Nourriture extends Parent {
 		cercle.setCenterY(positionY);
 		this.getChildren().add(cercle);
 		
+		//this.setVisible(false);
+		
+		
 	}
 
 }

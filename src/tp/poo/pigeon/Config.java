@@ -9,7 +9,10 @@ public class Config {
 	//nombre de pigeon 
 	public static int NPIGEON = 10;
 	//vitesse des pigeons
-	public static int VITESSE = 100;
+	public static int TEMPSDEPLACEMENT = 3000;
+	public static int INITIAL = 4000; // temps pour revenir à la position initial
+	public static int DUREENOURRITURE = 2000; // duree de vie d'une nourriture
+	public static long ATTENTE = 5000;
 	
 	
 }

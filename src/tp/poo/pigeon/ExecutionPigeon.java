@@ -2,6 +2,7 @@ package tp.poo.pigeon;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.Timer;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -23,11 +24,13 @@ public class ExecutionPigeon extends Application {
 Group root;	
 ArrayList<Pigeon> tabPigeon = new ArrayList<Pigeon>();
 ArrayList<Nourriture> tabNourriture = new ArrayList<Nourriture>();
-
+public Long lastClicked = 1L; //le temps de la dernière nourriture
+Timer timer;
+BackgroundTask tache;
 	@Override
  public void start(Stage primaryStage) {
         
-        
+		
         root = new Group();
         // creation des pigeons 
        CreationPigeon();
@@ -38,14 +41,28 @@ ArrayList<Nourriture> tabNourriture = new ArrayList<Nourriture>();
         primaryStage.setScene(scene);
         primaryStage.show();
         
+        
         scene.setOnMouseClicked(new EventHandler<MouseEvent>(){
         	public void handle(MouseEvent me){
+        		//System.out.println(lastClicked);
         		addNourriture(me.getSceneX(), me.getSceneY()); //appel ajout de nourriture
+        		lastClicked = System.currentTimeMillis();
+        		
         		
         	}
         });
+       
+			timer = new Timer();
+		   	 
+			//this.timer.schedule(new BackgroundTask(this.lastClicked, this.tabPigeon), 0, 1000);
+			this.timer.schedule(new BackgroundTask(this), 0, 5000);
+			//timer.cancel();
+	        
+		
+		
         
     }
+	
   //creation des pigeons
 	public void CreationPigeon()
 	{
@@ -84,12 +101,14 @@ ArrayList<Nourriture> tabNourriture = new ArrayList<Nourriture>();
 				Pigeon prochain = (Pigeon) lepigeon.next(); // prochain pigeon
 				Thread tDeplacement = new Thread(new LancementDeplacement(prochain, x, y));//lancement du thread
 				tDeplacement.start(); //execution
+				//prochain.deplacement(x, y);
 				
 			}
 		}
 	}
 	public static void main(String[] args) {
 		launch(args);
+		
 
 	}
 }
