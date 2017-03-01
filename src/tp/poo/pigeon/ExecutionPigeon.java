@@ -47,6 +47,10 @@ BackgroundTask tache;
         		//System.out.println(lastClicked);
         		addNourriture(me.getSceneX(), me.getSceneY()); //appel ajout de nourriture
         		lastClicked = System.currentTimeMillis();
+        		timer = new Timer();
+   		   	 
+    			//timer.schedule(new BackgroundTask(lastClicked, tabPigeon, tabNourriture), 0, 1000);
+    			//this.timer.schedule(new BackgroundTask(this), 0, 5000);
         		
         		
         	}
@@ -55,7 +59,8 @@ BackgroundTask tache;
 			timer = new Timer();
 		   	 
 			//this.timer.schedule(new BackgroundTask(this.lastClicked, this.tabPigeon), 0, 1000);
-			this.timer.schedule(new BackgroundTask(this), 0, 5000);
+			//this.timer.schedule(new BackgroundTask(this), 0, 5000);
+			//timer.schedule(new BackgroundTask(lastClicked, tabPigeon, tabNourriture), 0, 1000);
 			//timer.cancel();
 	        
 		

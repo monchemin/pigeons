@@ -8,11 +8,13 @@ public class BackgroundTask extends TimerTask {
 
 	long ledernier;
 	ArrayList<Pigeon> listPigeon = new ArrayList<Pigeon>();
+	ArrayList<Nourriture> listNourriture = new ArrayList<Nourriture>();
 	ExecutionPigeon p;
 	long actuel;
-	public BackgroundTask(long ledernier, ArrayList<Pigeon> listPigeon) {
+	public BackgroundTask(long ledernier, ArrayList<Pigeon> listPigeon, ArrayList<Nourriture> listn) {
 		this.ledernier = ledernier;
 		this.listPigeon = listPigeon;
+		this.listNourriture = listn;
 		
 	}
 	public BackgroundTask(ExecutionPigeon p) {
@@ -23,12 +25,12 @@ public class BackgroundTask extends TimerTask {
 	public void run() {
 		this.actuel = System.currentTimeMillis();
 		//System.out.println("actuel : " + actuel + " \nledernier : +" + p.lastClicked);
-		if(actuel > p.lastClicked + Config.ATTENTE)//le temps d'attente depassé
+		if(actuel > this.ledernier + Config.ATTENTE)//le temps d'attente depassé
 		{
 			
 			if(this.listPigeon != null)
 			{
-				Iterator lepigeon = p.tabPigeon.iterator(); //iteration sur arraylist tabPigeon
+				Iterator lepigeon = this.listPigeon.iterator(); //iteration sur arraylist tabPigeon
 				while(lepigeon.hasNext())
 				{
 					Pigeon prochain = (Pigeon) lepigeon.next(); // prochain pigeon
@@ -37,7 +39,7 @@ public class BackgroundTask extends TimerTask {
 				}
 			}
 		}
-		for(Iterator<Nourriture> n = p.tabNourriture.iterator(); n.hasNext(); )
+		for(Iterator<Nourriture> n = this.listNourriture.iterator(); n.hasNext(); )
 		{
 			Nourriture i = (Nourriture) n.next();
 			if(this.actuel > i.tempsCreation + Config.DUREENOURRITURE) i.setVisible(false);

@@ -19,7 +19,7 @@ public class Nourriture extends Parent {
 	protected void createCercle()
 	{
 		Circle cercle = new Circle();
-		cercle.setRadius(20);
+		cercle.setRadius(5);
 		cercle.setFill(Color.FIREBRICK);
 		cercle.setCenterX(positionX);
 		cercle.setCenterY(positionY);
