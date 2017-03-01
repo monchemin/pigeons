@@ -3,8 +3,8 @@ package tp.poo.pigeon;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TimerTask;
-//Execute les taches de fond suivantes
-// Deplacement des pigeons
+//Met a jour les elements suivants
+// Retour des pigeons à leurs positions initiale 
 // Disparition de la nourriture qui n'est plus fraîche
 public class BackgroundTask extends TimerTask {
 
