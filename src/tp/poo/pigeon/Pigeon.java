@@ -8,11 +8,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
 
+//Definis la forme, position et implante les déplacements d'un pigeon
 public class Pigeon extends Parent {
 	protected int positionX; //abscisse actuelle
 	protected int positionY; //ordonnée actuelle
-	protected int positionInitialX; //abscisse intitial
-	protected int positionInitialY; //ordonnée intitial
+	protected int positionInitialX; //abscisse intitiale
+	protected int positionInitialY; //ordonnée intitiale
 	protected Color color; //couleur
 	
 	
@@ -71,7 +72,8 @@ public class Pigeon extends Parent {
 		
 	}
 	public void deplacement(double x,double y)
-	{ // chaque pigon prend revient à sa position initial
+	{ 
+		// chaque pigeon prend revient à sa position initial
 		Timeline timeline = new Timeline();
         
         Duration duration = Duration.millis(Config.INITIAL);
@@ -79,12 +81,10 @@ public class Pigeon extends Parent {
         KeyValue keyValueY = new KeyValue(this.translateYProperty(), y);
         KeyFrame keyFrameX = new KeyFrame(duration , keyValueX);
         KeyFrame keyFrameY = new KeyFrame(duration ,keyValueY); 
-       
+      
         timeline.getKeyFrames().addAll(keyFrameX, keyFrameY);
  
         timeline.play();
-		
-		
 		
 	}
 }

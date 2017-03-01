@@ -12,9 +12,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 /* classe Main
- * creatin de la scène avec les informations de la classe Config
+ * creation de la scène avec les informations de la classe Config
  * la methode creation pigeon crée les pigeons en leur assignant une 
- * couleur aleratoire fournie par la classe CouleurPigeon
+ * couleur aleatoire fournie par la classe CouleurPigeon
  * chaque pigeon est positionné aleatoirement sur la scène
  * 
  */
@@ -33,7 +33,8 @@ BackgroundTask tache;
 		
         root = new Group();
         // creation des pigeons 
-       CreationPigeon();
+        CreationPigeon();
+        //System.out.println("Ajouts de " + Config.NPIGEON + " pigeons.\n");
        //mise en page de la scène
         Scene scene = new Scene(root, Config.WLARGEUR, Config.WHAUTEUR);
         scene.setFill(Color.WHITE);
@@ -51,11 +52,13 @@ BackgroundTask tache;
         		
         	}
         });
+        
+        
        
 			timer = new Timer();
 		   	 
 			//this.timer.schedule(new BackgroundTask(this.lastClicked, this.tabPigeon), 0, 1000);
-			this.timer.schedule(new BackgroundTask(this), 0, 5000);
+			this.timer.schedule(new BackgroundTask(this), 0, 50);
 			//timer.cancel();
 	        
 		
@@ -72,7 +75,7 @@ BackgroundTask tache;
 			int x = new Random().nextInt(Config.WLARGEUR-100); //x random -100 pour ne pas déborder
 			int y = new Random().nextInt(Config.WHAUTEUR-100);// y random
 			Color c = new CouleurPigeon().getColor(); // color random
-			Pigeon monPigeon = new Pigeon(x, y, c); // instaciation de pigeon
+			Pigeon monPigeon = new Pigeon(x, y, c); // instanciation de pigeon
 			//System.out.println(monPigeon);
 		    this.root.getChildren().add(monPigeon); // ajout à la scene
 		    try {
@@ -88,7 +91,10 @@ BackgroundTask tache;
 		root.getChildren().add(nourriture); //ajout a scene
 		try{
 		tabNourriture.add(nourriture); //insertion dans la table
-		} catch (NullPointerException e){ e.printStackTrace();}
+		} catch (NullPointerException e){
+			//System.out.println("ajout de nourriture");
+			e.printStackTrace();
+		}
 		this.deplacementPigeon(x, y);
 	}
 	public void deplacementPigeon(double x, double y)

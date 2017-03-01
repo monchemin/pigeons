@@ -3,7 +3,9 @@ package tp.poo.pigeon;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TimerTask;
-
+//Execute les taches de fond suivantes
+// Deplacement des pigeons
+// Disparition de la nourriture qui n'est plus fraîche
 public class BackgroundTask extends TimerTask {
 
 	long ledernier;
@@ -15,6 +17,7 @@ public class BackgroundTask extends TimerTask {
 		this.listPigeon = listPigeon;
 		
 	}
+	
 	public BackgroundTask(ExecutionPigeon p) {
 		this.p = p;
 		
@@ -23,9 +26,10 @@ public class BackgroundTask extends TimerTask {
 	public void run() {
 		this.actuel = System.currentTimeMillis();
 		//System.out.println("actuel : " + actuel + " \nledernier : +" + p.lastClicked);
+		
 		if(actuel > p.lastClicked + Config.ATTENTE)//le temps d'attente depassé
 		{
-			
+
 			if(this.listPigeon != null)
 			{
 				Iterator lepigeon = p.tabPigeon.iterator(); //iteration sur arraylist tabPigeon

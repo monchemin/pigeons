@@ -13,6 +13,7 @@ public class Nourriture extends Parent {
 		this.positionX = posX;
 		this.positionY = posY;
 		this.tempsCreation = System.currentTimeMillis(); //recuperation du temps de creation pour vérifier la viablité
+		System.out.println("Nourriture créé a " + this.tempsCreation);
 		//création de la nourriture represente par un circle
 		createCercle();	
 	}
