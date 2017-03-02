@@ -1,5 +1,7 @@
 package tp.poo.pigeon;
 
+import java.util.Random;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -15,6 +17,7 @@ public class Pigeon extends Parent {
 	protected int positionInitialX; //abscisse intitiale
 	protected int positionInitialY; //ordonnée intitiale
 	protected Color color; //couleur
+	protected int vitesse; // vitesse aleatoire du pigeo
 	
 	
 	public Pigeon(int posX, int posY, Color color) {
@@ -24,7 +27,9 @@ public class Pigeon extends Parent {
 		this.positionInitialX = posX;
 		this.positionInitialY = posY;
 		this.color = color;
+		
 		this.setPigeon();
+		
 	}
 	
 	protected void setPigeon()
@@ -46,6 +51,7 @@ public class Pigeon extends Parent {
 	{
 		this.positionX = newposX;
 		this.positionY = newposY;
+		this.setVitesse();
 		this.setPosition();
 	}
 	
@@ -66,10 +72,7 @@ public class Pigeon extends Parent {
        
         timeline.getKeyFrames().addAll(keyFrameX, keyFrameY);
  
-        timeline.play();
-		
-		
-		
+        timeline.play();	
 	}
 	public void deplacement(double x,double y)
 	{ 
@@ -86,5 +89,10 @@ public class Pigeon extends Parent {
  
         timeline.play();
 		
+	}
+	
+	public void setVitesse()
+	{
+		this.vitesse = (new Random().nextInt(10) + 1)*Config.TEMPSDEPLACEMENT/5;
 	}
 }

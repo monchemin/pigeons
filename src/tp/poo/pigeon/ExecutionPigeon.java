@@ -1,16 +1,20 @@
 package tp.poo.pigeon;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Timer;
 
 import javafx.application.Application;
+import javafx.concurrent.ScheduledService;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 /* classe Main
  * creation de la scène avec les informations de la classe Config
  * la methode creation pigeon crée les pigeons en leur assignant une 
@@ -57,21 +61,54 @@ BackgroundTask tache;
         	}
         });
         
-        
-       
-			//timer = new Timer();
-		   	 
-			//this.timer.schedule(new BackgroundTask(this.lastClicked, this.tabPigeon), 0, 1000);
+       //classe anonyme qui assure le scheduled 
+       //il vérifie l'état des nourritures et fait disparaitre une nourriture non fraiche
+      //il s'excute à chaque intervalle de Config.ATTENTE
+        //il s'execute 5 seconde apprès le lancement
+        ScheduledService<Void> backTask = new ScheduledService<Void>(){
 
-			//this.timer.schedule(new BackgroundTask(this), 0, 5000);
-			//timer.schedule(new BackgroundTask(lastClicked, tabPigeon, tabNourriture), 0, 1000);
+  		  @Override
+  		  protected Task<Void> createTask() {
+  		    return new Task<Void>(){
 
-			//timer.cancel();
-	        
-		
-		
-        
+  		     @Override
+  		     protected Void call() throws Exception {
+  		       //System.out.println("appel de service : " + System.currentTimeMillis());
+  		     if(System.currentTimeMillis() > lastClicked + Config.ATTENTE)//le temps d'attente depassé
+  			{
+  		    	 	
+  				if(tabPigeon.size() != 0 && tabNourriture.size() == 0)
+  				{
+  					
+  					Iterator lepigeon = tabPigeon.iterator(); //iteration sur arraylist tabPigeon
+  					while(lepigeon.hasNext())
+  					{
+  						Pigeon prochain = (Pigeon) lepigeon.next(); // prochain pigeon
+  						prochain.setInitial();
+  							
+  					}
+  				}
+  			}
+  			for(Iterator<Nourriture> n = tabNourriture.iterator(); n.hasNext(); )
+  			{
+  				Nourriture i = (Nourriture) n.next();
+  				if(System.currentTimeMillis() > i.tempsCreation + Config.DUREENOURRITURE)
+  				{
+  					i.setVisible(false); // cache la nourriture
+  					tabNourriture.remove(i); // supprime la nourriture dans la table
+  				}
+  				
+  			}
+  		        return null;
+  		      }
+  		    };
+  		  }
+  		};
+  	backTask.setDelay(Duration.seconds(2));
+  	backTask.setPeriod(Duration.seconds(3));
+  	backTask.start();
     }
+	
 	
   //creation des pigeons
 	public void CreationPigeon()
@@ -102,13 +139,17 @@ BackgroundTask tache;
 			//System.out.println("ajout de nourriture");
 			e.printStackTrace();
 		}
+		try{
 		this.deplacementPigeon(x, y);
+		}catch (IOException e){e.printStackTrace();}
 	}
-	public void deplacementPigeon(double x, double y)
+	public void deplacementPigeon(double x, double y) throws IOException
 	{// deplacement des pigeon par thread
-		if(this.tabPigeon != null)
-		{
+		if(this.tabPigeon.size() != 0)
+		{ //System.out.println(tabPigeon.size());
+			
 			Iterator lepigeon = this.tabPigeon.iterator(); //iteration sur arraylist tabPigeon
+			
 			while(lepigeon.hasNext())
 			{
 				Pigeon prochain = (Pigeon) lepigeon.next(); // prochain pigeon
@@ -125,3 +166,6 @@ BackgroundTask tache;
 
 	}
 }
+
+
+

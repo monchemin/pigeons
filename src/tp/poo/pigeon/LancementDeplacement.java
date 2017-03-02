@@ -24,7 +24,8 @@ public class LancementDeplacement implements Runnable {
 	public void run() {
 		
 		Timeline timeline = new Timeline();
-        Duration duration = Duration.millis(Config.TEMPSDEPLACEMENT);
+		this.monPigeon.setVitesse();
+        Duration duration = Duration.millis(this.monPigeon.vitesse);
         KeyValue keyValueX = new KeyValue(this.monPigeon.translateXProperty(), this.posX);
         KeyValue keyValueY = new KeyValue(this.monPigeon.translateYProperty(), this.posY);
         KeyFrame keyFrameX = new KeyFrame(duration , keyValueX);
