@@ -60,11 +60,25 @@ public class Pigeon extends Parent {
 		this.setTranslateX(this.positionX); //position x du pigeon sur la scene
 		this.setTranslateY(this.positionY);
 	}
+	public void setInitial(int x, int y)
+	{ // chaque pigon prend revient à sa position initial
+		Timeline timeline = new Timeline();
+        
+        Duration duration = Duration.seconds(Config.RETOUR_INITIAL);
+        KeyValue keyValueX = new KeyValue(this.translateXProperty(), x);
+        KeyValue keyValueY = new KeyValue(this.translateYProperty(), y);
+        KeyFrame keyFrameX = new KeyFrame(duration , keyValueX);
+        KeyFrame keyFrameY = new KeyFrame(duration ,keyValueY); 
+       
+        timeline.getKeyFrames().addAll(keyFrameX, keyFrameY);
+ 
+        timeline.play();	
+	}
 	public void setInitial()
 	{ // chaque pigon prend revient à sa position initial
 		Timeline timeline = new Timeline();
         
-        Duration duration = Duration.millis(Config.INITIAL);
+        Duration duration = Duration.seconds(Config.RETOUR_INITIAL);
         KeyValue keyValueX = new KeyValue(this.translateXProperty(), this.positionInitialX);
         KeyValue keyValueY = new KeyValue(this.translateYProperty(), this.positionInitialY);
         KeyFrame keyFrameX = new KeyFrame(duration , keyValueX);
@@ -79,7 +93,7 @@ public class Pigeon extends Parent {
 		// chaque pigeon prend revient à sa position initial
 		Timeline timeline = new Timeline();
         
-        Duration duration = Duration.millis(Config.INITIAL);
+        Duration duration = Duration.seconds(Config.RETOUR_INITIAL);
         KeyValue keyValueX = new KeyValue(this.translateXProperty(), x);
         KeyValue keyValueY = new KeyValue(this.translateYProperty(), y);
         KeyFrame keyFrameX = new KeyFrame(duration , keyValueX);
@@ -93,6 +107,6 @@ public class Pigeon extends Parent {
 	
 	public void setVitesse()
 	{
-		this.vitesse = (new Random().nextInt(10) + 1)*Config.TEMPSDEPLACEMENT/5;
+		this.vitesse = (new Random().nextInt(10) + 1)*Config.TEMPS_DE_PLACEMENT/5;
 	}
 }

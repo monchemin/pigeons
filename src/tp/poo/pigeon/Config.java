@@ -2,17 +2,21 @@ package tp.poo.pigeon;
 
 //classe d'initilisation des parametres à utiler
 public class Config {
-	public static String APPNAME = "LES PIGEONS POO";
+	public static String APP_NAME = "LES PIGEONS POO";
 //dimensions de la fenetre
-	public static int WLARGEUR = 1000;
-	public static int WHAUTEUR = 700;
+	public static int W_LARGEUR = 1000;
+	public static int W_HAUTEUR = 700;
 	//nombre de pigeon 
 	public static int NPIGEON = 10;
 	//vitesse des pigeons
-	public static int TEMPSDEPLACEMENT = 3000;
-	public static int INITIAL = 4000; // temps pour revenir à la position initiale
-	public static int DUREENOURRITURE = 3000; // duree de vie d'une nourriture
-	public static int ATTENTE = 5;
+	public static int TEMPS_DE_PLACEMENT = 10000; //(ms)
+	public static int RETOUR_INITIAL = 1; // temps pour revenir à la position initiale
+	public static int DUREE_NOURRITURE = 2000; // (ms)duree de vie d'une nourriture
+	public static int CLIC_ATTENTE = 10; //seconde
+	
+	//parametres du service de vérification
+	
+	public static int SERVICE_DELAY_TIME = 3; // temps d'attente avant lancement service de vérification
 	
 	
 }
