@@ -33,6 +33,8 @@ public Long lastClicked = 1L; //le temps de la dernière nourriture
 Timer timer;
 boolean firstClic = false;
 boolean SommeilPigeon = true;
+int tempsSommeil;
+
 	@Override
  public void start(Stage primaryStage) {
         
@@ -52,6 +54,7 @@ boolean SommeilPigeon = true;
         scene.setOnMouseClicked(new EventHandler<MouseEvent>(){
         	public void handle(MouseEvent me){     		
         		addNourriture(me.getSceneX(), me.getSceneY()); //appel ajout de nourriture
+        		tempsSommeil = new Random().nextInt(30);
         		lastClicked = System.currentTimeMillis();
         		firstClic = true;
         	}
@@ -68,57 +71,69 @@ boolean SommeilPigeon = true;
   		    return new Task<Void>(){
 
   		     @Override
-  		     protected Void call() throws Exception {
-  		    	 
-  		    	for(Iterator<Nourriture> n = tabNourriture.iterator(); n.hasNext(); )
-  	  			{
-  	  				Nourriture i = (Nourriture) n.next();
-  	  				if(System.currentTimeMillis() > i.tempsCreation + Config.DUREE_NOURRITURE)
-  	  				{
-  	  					i.setVisible(false); // cache la nourriture
-  	  					tabNourriture.remove(i); // supprime la nourriture dans la table
-  	  					
-  	  				}
-  	  				
-  	  			}
-  		    	if(tabNourriture.isEmpty()) // test de l'existence de nourriture
-	  			{
-  				
-  				for(int z = 0; z < runningThread.size(); z++ )
-	  	  			{ 			
-  						System.out.println("le thread qui va se stopper : " + z);
-	  	  				//runningThread.get(z).stop(); // blocage de mouvement
-	  	  				//runningThread.remove(runningThread.get(z)); // suppression du mouvement
+	  		     protected Void call() throws Exception {
+	  		    	
+	  		    	for(Iterator<Nourriture> n = tabNourriture.iterator(); n.hasNext(); )
+	  	  			{
+	  	  				Nourriture i = (Nourriture) n.next();
+	  	  				
+	  	  				//On essai de trouver quand les pigeons sont sur la nourriture
+	  	  				for(Iterator<Pigeon> pigeon = tabPigeon.iterator(); n.hasNext();){
+	  	  					
+	  	  					if((pigeon.next().getPositionX()==i.getPositionX()) && (pigeon.next().getPositionY()==i.getPositionY())){
+	  	  						System.out.println("Prems ! ");
+	  	  					}		
+	  	  				}
+	  	  				
+	  	  				if(System.currentTimeMillis() > i.tempsCreation + Config.DUREE_NOURRITURE)//La nourriture n'est plus fraiche
+	  	  				{
+	  	  					
+	  	  					System.out.println("Position nourriture (" + i.getPositionX() + "," + i.getPositionY() + ")");
+	  						
+	  						Iterator<Pigeon> lepigeon = tabPigeon.iterator(); //iteration sur arraylist tabPigeon
+		  					while(lepigeon.hasNext())
+		  					{
+		  						Pigeon p = lepigeon.next();
+		  	  					System.out.println("Position  pigeon (" + p.getPositionX()+ "," + p.getPositionY() + ")");
+		  								  						
+		  					}
+		  					
+	  	  					i.setVisible(false); // cache la nourriture
+	  	  					tabNourriture.remove(i); // supprime la nourriture dans la table
+	  	  					
+	  	  				}
+	  	  				
 	  	  			}
+	
+	  		    	/*if(tabNourriture.isEmpty()) // test de l'existence de nourriture
+		  			{
+	  				
+	  				for(int z = 0; z < runningThread.size(); z++ )
+		  	  			{ 			
+	  						System.out.println("le thread qui va se stopper : " + z);
+		  	  				//runningThread.get(z).stop(); // blocage de mouvement
+		  	  				//runningThread.remove(runningThread.get(z)); // suppression du mouvement
+		  	  			}
+		  			}*/
+	  		      
+	  		     if(System.currentTimeMillis() > lastClicked + tempsSommeil)//le temps d'attente depassé
+	  			{
+	  		    	 	
+	  				if(tabPigeon.size() != 0 && firstClic && tabNourriture.size()==0 && !SommeilPigeon)
+	  				{
+	  					deplacementBallade();	
+	  				}
 	  			}
-  		      
-  		     if(System.currentTimeMillis() > lastClicked + Config.CLIC_ATTENTE)//le temps d'attente depassé
-  			{
-  		    	 	
-  				if(tabPigeon.size() != 0 && firstClic && tabNourriture.size()==0 && !SommeilPigeon)
-  				{
-  					
-  					Iterator<Pigeon> lepigeon = tabPigeon.iterator(); //iteration sur arraylist tabPigeon
-  					System.out.println("je me balade");
-  					while(lepigeon.hasNext())
-  					{
-  						Pigeon prochain = (Pigeon) lepigeon.next(); // prochain pigeon
-  						int x = new Random().nextInt(Config.W_LARGEUR-100); //x random -100 pour ne pas déborder
-  						int y = new Random().nextInt(Config.W_HAUTEUR-100);// y random
-  						deplacementPigeon(x, y, prochain);
-  							
-  					}
-  					SommeilPigeon = true;  					
-  				}
-  			}
-  		        return null;
+	  		        return null;
   		      }
   		    };
   		  }
   		};
+  		
   	backTask.setDelay(Duration.seconds(1));
   	backTask.setPeriod(Duration.seconds(Config.SERVICE_DELAY_TIME));
   	backTask.start();
+  	
     }
 	
 	
@@ -154,11 +169,12 @@ boolean SommeilPigeon = true;
 		}
 		try{
 			System.out.println("Manger !");
-			this.deplacementPigeons(x, y);
+			this.deplacementNourriture(x, y);
 		}catch (Exception e){System.out.println("");;}
 	}
-	public void deplacementPigeons(double x, double y) throws Exception
-	{// deplacement des pigeon par thread
+	
+	public void deplacementNourriture(double x, double y) throws Exception
+	{// deplacement des pigeon par thread vers une nourriture
 		//System.out.println("entre");
 		if(this.tabPigeon.size() != 0)
 		{ //System.out.println(tabPigeon.size());
@@ -172,18 +188,30 @@ boolean SommeilPigeon = true;
 				runningThread.add(tprochain);
 				
 				tDeplacement.start(); //execution
-//				//prochain.deplacement(x, y);	
+				//prochain.deplacement(x, y);	
 			}
 
 		}
 	}
 	
-	public void deplacementPigeon(double x, double y, Pigeon Joey) throws Exception{
-		Timeline tprochain = new PreparationMouvement(Joey, x, y ).moov();
-		Thread tDeplacement = new Thread(new LancementDeplacement(tprochain));
-		runningThread.add(tprochain);
+	public void deplacementBallade() throws Exception{
 		
-		tDeplacement.start();
+		Iterator<Pigeon> lepigeon = tabPigeon.iterator(); //iteration sur arraylist tabPigeon
+		System.out.println("je me balade");
+		while(lepigeon.hasNext())
+		{
+			Pigeon Joey = (Pigeon) lepigeon.next(); // prochain pigeon
+//				deplacementBallade(prochain);
+			int x = new Random().nextInt(Config.W_LARGEUR-100); //x random -100 pour ne pas déborder
+			int y = new Random().nextInt(Config.W_HAUTEUR-100);// y random
+			Timeline tprochain = new PreparationMouvement(Joey, x, y ).moov();
+			Thread tDeplacement = new Thread(new LancementDeplacement(tprochain));
+			runningThread.add(tprochain);
+			
+			tDeplacement.start();
+
+		}
+		SommeilPigeon = true;
 		
 	}
 	public static void main(String[] args) {

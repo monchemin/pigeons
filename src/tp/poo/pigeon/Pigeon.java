@@ -60,6 +60,14 @@ public class Pigeon extends Parent {
 		this.setTranslateX(this.positionX); //position x du pigeon sur la scene
 		this.setTranslateY(this.positionY);
 	}
+	
+	public int getPositionX(){
+		return this.positionX;
+	}
+	
+	public int getPositionY(){
+		return this.positionY;
+	}
 	public void setInitial(int x, int y)
 	{ // chaque pigon prend revient à sa position initial
 		Timeline timeline = new Timeline();
