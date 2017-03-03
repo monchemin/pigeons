@@ -32,6 +32,7 @@ ArrayList<Timeline> runningThread = new ArrayList<Timeline>();
 public Long lastClicked = 1L; //le temps de la dernière nourriture
 Timer timer;
 boolean firstClic = false;
+boolean SommeilPigeon = true;
 	@Override
  public void start(Stage primaryStage) {
         
@@ -56,10 +57,10 @@ boolean firstClic = false;
         	}
         });
         
-       //classe anonyme qui assure le scheduled 
-       //il vérifie l'état des nourritures et fait disparaitre une nourriture non fraiche
-      //il s'excute à chaque intervalle de Config.ATTENTE
-        //il s'execute 5 seconde apprès le lancement
+        //classe anonyme qui assure le scheduled 
+        //vérifie l'état des nourritures et fait disparaitre une nourriture non fraiche
+        //s'excute à chaque intervalle de Config.ATTENTE
+        //s'execute 5 secondes apprès le lancement
         ScheduledService<Void> backTask = new ScheduledService<Void>(){
 
   		  @Override
@@ -84,20 +85,21 @@ boolean firstClic = false;
 	  			{
   				
   				for(int z = 0; z < runningThread.size(); z++ )
-	  				
-	  	  			{ System.out.println(z);
-	  	  						runningThread.get(z).stop(); // blocage de mouvement
-	  	  						runningThread.remove(runningThread.get(z)); // suppression du mouvement
+	  	  			{ 			
+  						System.out.println("le thread qui va se stopper : " + z);
+	  	  				//runningThread.get(z).stop(); // blocage de mouvement
+	  	  				//runningThread.remove(runningThread.get(z)); // suppression du mouvement
 	  	  			}
 	  			}
   		      
   		     if(System.currentTimeMillis() > lastClicked + Config.CLIC_ATTENTE)//le temps d'attente depassé
   			{
   		    	 	
-  				if(tabPigeon.size() != 0 && firstClic && tabNourriture.size()==0)
+  				if(tabPigeon.size() != 0 && firstClic && tabNourriture.size()==0 && !SommeilPigeon)
   				{
   					
   					Iterator<Pigeon> lepigeon = tabPigeon.iterator(); //iteration sur arraylist tabPigeon
+  					System.out.println("je me balade");
   					while(lepigeon.hasNext())
   					{
   						Pigeon prochain = (Pigeon) lepigeon.next(); // prochain pigeon
@@ -106,12 +108,9 @@ boolean firstClic = false;
   						prochain.setInitial(x,y);
   							
   					}
-  					
+  					SommeilPigeon = true;  					
   				}
   			}
-  			
-  			
-  			
   		        return null;
   		      }
   		    };
@@ -148,12 +147,14 @@ boolean firstClic = false;
 		root.getChildren().add(nourriture); //ajout a scene
 		try{
 		tabNourriture.add(nourriture); //insertion dans la table
+		SommeilPigeon = false;
 		} catch (NullPointerException e){
 			//System.out.println("ajout de nourriture");
 			e.printStackTrace();
 		}
 		try{
-		this.deplacementPigeon(x, y);
+			System.out.println("Manger !");
+			this.deplacementPigeon(x, y);
 		}catch (Exception e){System.out.println("");;}
 	}
 	public void deplacementPigeon(double x, double y) throws Exception
