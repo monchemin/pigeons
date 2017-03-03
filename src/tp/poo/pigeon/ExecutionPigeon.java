@@ -105,7 +105,7 @@ boolean SommeilPigeon = true;
   						Pigeon prochain = (Pigeon) lepigeon.next(); // prochain pigeon
   						int x = new Random().nextInt(Config.W_LARGEUR-100); //x random -100 pour ne pas déborder
   						int y = new Random().nextInt(Config.W_HAUTEUR-100);// y random
-  						prochain.setInitial(x,y);
+  						deplacementPigeon(x, y, prochain);
   							
   					}
   					SommeilPigeon = true;  					
@@ -154,20 +154,17 @@ boolean SommeilPigeon = true;
 		}
 		try{
 			System.out.println("Manger !");
-			this.deplacementPigeon(x, y);
+			this.deplacementPigeons(x, y);
 		}catch (Exception e){System.out.println("");;}
 	}
-	public void deplacementPigeon(double x, double y) throws Exception
+	public void deplacementPigeons(double x, double y) throws Exception
 	{// deplacement des pigeon par thread
 		//System.out.println("entre");
 		if(this.tabPigeon.size() != 0)
 		{ //System.out.println(tabPigeon.size());
-			
 			Iterator<Pigeon> lepigeon = this.tabPigeon.iterator(); //iteration sur arraylist tabPigeon
-			
 			while(lepigeon.hasNext())
 			{
-				
 				Pigeon prochain = (Pigeon) lepigeon.next(); // prochain pigeon
 				//System.out.println("ipe");
 				Timeline tprochain = new PreparationMouvement(prochain, x, y).moov();
@@ -175,12 +172,19 @@ boolean SommeilPigeon = true;
 				runningThread.add(tprochain);
 				
 				tDeplacement.start(); //execution
-//				//prochain.deplacement(x, y);
-				
+//				//prochain.deplacement(x, y);	
 			}
-			
-			
+
 		}
+	}
+	
+	public void deplacementPigeon(double x, double y, Pigeon Joey) throws Exception{
+		Timeline tprochain = new PreparationMouvement(Joey, x, y ).moov();
+		Thread tDeplacement = new Thread(new LancementDeplacement(tprochain));
+		runningThread.add(tprochain);
+		
+		tDeplacement.start();
+		
 	}
 	public static void main(String[] args) {
 		launch(args);

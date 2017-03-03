@@ -17,7 +17,7 @@ public class Pigeon extends Parent {
 	protected int positionInitialX; //abscisse intitiale
 	protected int positionInitialY; //ordonnée intitiale
 	protected Color color; //couleur
-	protected int vitesse; // vitesse aleatoire du pigeo
+	protected int vitesse = 0; // vitesse aleatoire du pigeo
 	
 	
 	public Pigeon(int posX, int posY, Color color) {
@@ -107,6 +107,8 @@ public class Pigeon extends Parent {
 	
 	public void setVitesse()
 	{
-		this.vitesse = (new Random().nextInt(10) + 1)*Config.TEMPS_DE_PLACEMENT/5;
+		while(this.vitesse==0){
+			this.vitesse = (new Random().nextInt(10) + 1)*Config.TEMPS_DE_PLACEMENT/5;
+		}
 	}
 }
