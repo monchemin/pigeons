@@ -78,11 +78,16 @@ int tempsSommeil;
 	  	  				Nourriture i = (Nourriture) n.next();
 	  	  				
 	  	  				//On essai de trouver quand les pigeons sont sur la nourriture
-	  	  				for(Iterator<Pigeon> pigeon = tabPigeon.iterator(); n.hasNext();){
+	  	  				Iterator<Pigeon> lepigeon = tabPigeon.iterator();
+	  	  				while(lepigeon.hasNext()){
 	  	  					
-	  	  					if((pigeon.next().getPositionX()==i.getPositionX()) && (pigeon.next().getPositionY()==i.getPositionY())){
-	  	  						System.out.println("Prems ! ");
-	  	  					}		
+	  	  					Pigeon p = lepigeon.next();
+	  	  					
+	  	  					if((p.getPositionX()==i.getPositionX())&&(p.getPositionY()==i.getPositionY())){
+	  	  						System.out.println("Prem's !");
+	  	  						i.setVisible(false);
+	  	  						tabNourriture.remove(i);
+	  	  					}
 	  	  				}
 	  	  				
 	  	  				if(System.currentTimeMillis() > i.tempsCreation + Config.DUREE_NOURRITURE)//La nourriture n'est plus fraiche
@@ -90,13 +95,13 @@ int tempsSommeil;
 	  	  					
 	  	  					System.out.println("Position nourriture (" + i.getPositionX() + "," + i.getPositionY() + ")");
 	  						
-	  						Iterator<Pigeon> lepigeon = tabPigeon.iterator(); //iteration sur arraylist tabPigeon
+	  						/*Iterator<Pigeon> lepigeon = tabPigeon.iterator(); //iteration sur arraylist tabPigeon
 		  					while(lepigeon.hasNext())
 		  					{
 		  						Pigeon p = lepigeon.next();
-		  	  					System.out.println("Position  pigeon (" + p.getPositionX()+ "," + p.getPositionY() + ")");
+		  	  					System.out.println("Position  pigeon " + p.getColor().toString()+ " (" + p.getPositionX()+ "," + p.getPositionY() + ")");
 		  								  						
-		  					}
+		  					}*/
 		  					
 	  	  					i.setVisible(false); // cache la nourriture
 	  	  					tabNourriture.remove(i); // supprime la nourriture dans la table
@@ -201,7 +206,7 @@ int tempsSommeil;
 		while(lepigeon.hasNext())
 		{
 			Pigeon Joey = (Pigeon) lepigeon.next(); // prochain pigeon
-//				deplacementBallade(prochain);
+			//deplacementBallade(prochain);
 			int x = new Random().nextInt(Config.W_LARGEUR-100); //x random -100 pour ne pas déborder
 			int y = new Random().nextInt(Config.W_HAUTEUR-100);// y random
 			Timeline tprochain = new PreparationMouvement(Joey, x, y ).moov();

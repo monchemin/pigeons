@@ -62,11 +62,15 @@ public class Pigeon extends Parent {
 	}
 	
 	public int getPositionX(){
-		return this.positionX;
+		return this.translateXProperty().intValue();
 	}
 	
 	public int getPositionY(){
-		return this.positionY;
+		return this.translateYProperty().intValue();
+	}
+	
+	public Color getColor(){
+		return this.color;
 	}
 	public void setInitial(int x, int y)
 	{ // chaque pigon prend revient à sa position initial
