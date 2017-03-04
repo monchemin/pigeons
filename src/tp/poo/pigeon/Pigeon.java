@@ -44,9 +44,9 @@ public class Pigeon extends Parent {
 		unPigeon.setFill(this.color);
 		//positionnement du pigeon
 		this.getChildren().add(unPigeon); // ajout du polygone à l'objet pigeon 
-		this.setPosition(); // position y du pigeon sur la scene
-		
+		this.setPosition(); // position y du pigeon sur la scene	
 	}
+	
 	public void moov(int newposX , int newposY)
 	{
 		this.positionX = newposX;
@@ -69,9 +69,18 @@ public class Pigeon extends Parent {
 		return this.translateYProperty().intValue();
 	}
 	
+	public int getPositionInitialX(){
+		return this.positionInitialX;
+	}
+	
+	public int getPositionInitialY(){
+		return this.positionInitialY;
+	}
+	
 	public Color getColor(){
 		return this.color;
 	}
+	
 	public void setInitial(int x, int y)
 	{ // chaque pigon prend revient à sa position initial
 		Timeline timeline = new Timeline();
@@ -86,8 +95,11 @@ public class Pigeon extends Parent {
  
         timeline.play();	
 	}
+	/* chaque pigeon prend revient à sa position initial
+	 * 
+	 */
 	public void setInitial()
-	{ // chaque pigon prend revient à sa position initial
+	{ 
 		Timeline timeline = new Timeline();
         
         Duration duration = Duration.seconds(Config.RETOUR_INITIAL);
@@ -100,6 +112,7 @@ public class Pigeon extends Parent {
  
         timeline.play();	
 	}
+	
 	public void deplacement(double x,double y)
 	{ 
 		// chaque pigeon prend revient à sa position initial
@@ -123,4 +136,5 @@ public class Pigeon extends Parent {
 			this.vitesse = (new Random().nextInt(10) + 1)*Config.TEMPS_DE_PLACEMENT/5;
 		}
 	}
+	
 }
