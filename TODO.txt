@@ -1,6 +1,0 @@
-- Affichage par layer, le blan qui cache tout
-	-> Revoir fonctionnement tache de fond pour effacer le blanc
-	-> Les pigeons repops a leurs endroit initial au lieu d'y retourner
-- Relire la réponse Question 2 et valider
-
- 

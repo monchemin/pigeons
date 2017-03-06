@@ -132,7 +132,7 @@ int tempsSommeil;
 	{
 		for(int i=1 ; i<= Config.NPIGEON; i++)
 		{
-			// System.out.println(i);
+			
 			int x = new Random().nextInt(Config.W_LARGEUR-100); //x random -100 pour ne pas déborder
 			int y = new Random().nextInt(Config.W_HAUTEUR-100);// y random
 			Color c = new CouleurPigeon().getColor(); // color random
@@ -199,7 +199,7 @@ int tempsSommeil;
 		while(lepigeon.hasNext())
 		{
 			Pigeon Joey = (Pigeon) lepigeon.next(); // prochain pigeon
-			//deplacementBallade(prochain);
+			
 			int x = new Random().nextInt(Config.W_LARGEUR-100); //x random -100 pour ne pas déborder
 			int y = new Random().nextInt(Config.W_HAUTEUR-100);// y random
 			Timeline tprochain = new PreparationMouvement(Joey, x, y ).moov();

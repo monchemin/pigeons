@@ -82,7 +82,7 @@ public class Pigeon extends Parent {
 	}
 	
 	public void setInitial(int x, int y)
-	{ // chaque pigon prend revient à sa position initial
+	{ // chaque pigeon prend revient à sa position initial
 		Timeline timeline = new Timeline();
         
         Duration duration = Duration.seconds(Config.RETOUR_INITIAL);

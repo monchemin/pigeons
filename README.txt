@@ -24,6 +24,7 @@ Fonctionnement
 - une nourriture mangée disparait de la scène après un moment.
 - après une attente de 3 secondes (à paramétrer) sans clic sur la scène, les pigeons reviennent à leur position initiale
 - lorqu'il n'y plus de nourriture sur la scène les pigeons ne bougent plus et après le temps sans clic retournent à leur position initiale
+- les pigeons sont effrayés à entre chaque clique et se déplacent aléatoirement sur la scène
 
 Tout le paramétrage se fait dans la classe "Config"
 
