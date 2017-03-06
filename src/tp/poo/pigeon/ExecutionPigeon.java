@@ -51,10 +51,11 @@ int tempsSommeil;
         primaryStage.show();
         
         tempsSommeil = Config.TEMPS_SOMMEIL;
+        
         scene.setOnMouseClicked(new EventHandler<MouseEvent>(){
         	public void handle(MouseEvent me){     		
         		addNourriture(me.getSceneX(), me.getSceneY()); //appel ajout de nourriture
-        	//	tempsSommeil = new Random().nextInt(3000);//Temps aleatoire avant effrayer les pigeons
+        		tempsSommeil += new Random().nextInt(30000);//Temps aleatoire avant effrayer les pigeons
         		lastClicked = System.currentTimeMillis();
         		firstClic = true;
         	}
